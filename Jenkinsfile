@@ -2,37 +2,25 @@ pipeline {
     agent any
 
     stages {
-    
-
         stage('Init') {
             steps {
-                sh '''
-                terraform init
-                '''
+                sh 'terraform init'
             }
         }
-
         stage('Validate') {
             steps {
-                sh '''
-                terraform validate
-                '''
+                sh 'terraform validate'
             }
         }
-
         stage('Plan') {
             steps {
-                sh '''
-                terraform plan -out=tfplan
-                '''
+                sh 'terraform plan -out=tfplan'
             }
         }
-
         stage('Apply') {
             steps {
-                sh '''
-                terraform apply -auto-approve tfplan
-                '''
+                input message: 'Approve apply?', ok: 'Deploy'
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
