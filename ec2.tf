@@ -1,7 +1,5 @@
 provider "aws" {
     region = "us-east-1"
-    access_key = "AKIAULYZNXDJ7CG57RUT"
-    secret_key = "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"
 }
 
 resource "aws_security_group" "vestha" {
@@ -41,4 +39,5 @@ resource "aws_instance" "node" {
         Name = "champutha"
     }
 }
+
 
