@@ -1,26 +1,48 @@
 pipeline {
     agent any
 
+    environment {
+        // AWS creds stored in Jenkins → Credentials → "Username with password"
+        // Example ID: aws-creds
+        AWS_CREDS = credentials('aws-creds-id')
+    }
+
     stages {
-        stage('Init') {
+        stage('Checkout') {
             steps {
-                sh 'terraform init'
+                // Jenkins automatically checks out when you use "Pipeline from SCM",
+                // so you can remove this stage if you like.
+                checkout scm
             }
         }
-        stage('Validate') {
+
+        stage('Terraform Init') {
             steps {
-                sh 'terraform validate'
+                sh '''
+                  export AWS_ACCESS_KEY_ID=$AWS_CREDS_USR
+                  export AWS_SECRET_ACCESS_KEY=$AWS_CREDS_PSW
+                  terraform init
+                '''
             }
         }
-        stage('Plan') {
+
+        stage('Terraform Plan') {
             steps {
-                sh 'terraform plan -out=tfplan'
+                sh '''
+                  export AWS_ACCESS_KEY_ID=$AWS_CREDS_USR
+                  export AWS_SECRET_ACCESS_KEY=$AWS_CREDS_PSW
+                  terraform plan
+                '''
             }
         }
-        stage('Apply') {
+
+        stage('Terraform Apply') {
             steps {
-                input message: 'Approve apply?', ok: 'Deploy'
-                sh 'terraform apply -auto-approve tfplan'
+                sh '''
+                  export AWS_ACCESS_KEY_ID=$AWS_CREDS_USR
+                  export AWS_SECRET_ACCESS_KEY=$AWS_CREDS_PSW
+                  terraform apply -auto-approve
+                '''
             }
         }
     }
