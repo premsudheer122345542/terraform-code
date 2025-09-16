@@ -2,12 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Pull your Terraform code repo
-                git 'https://github.com/premsudheer122345542/terraform-code.git'
-            }
-        }
+    
 
         stage('Init') {
             steps {
