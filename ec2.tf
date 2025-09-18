@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_security_group" "vestha" {
-    name = "kostha"
+    name = "jing-jing"
     vpc_id = "vpc-0ff908b668e229b91"
     ingress {
         from_port = 22
@@ -39,5 +39,6 @@ resource "aws_instance" "node" {
         Name = "champutha"
     }
 }
+
 
 
