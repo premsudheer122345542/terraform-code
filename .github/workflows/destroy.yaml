@@ -1,6 +1,6 @@
 
 
-name: 'Terraform'
+name: 'Desto'
 
 on:
   workflow_dispatch:
